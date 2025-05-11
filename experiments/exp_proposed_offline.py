@@ -1,4 +1,8 @@
 import random
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from data_pipeline import gete2wlandw2el,getaccuracy
 import time
 from results_summary import OfflineResultsSummary
@@ -29,15 +33,48 @@ if __name__ == '__main__':
         ('SpectralMethodsMeetEM/rte', 'rte'),
         ('SpectralMethodsMeetEM/trec', 'trec'),
     ]
+    
+    datasets = [
+        ('rbm/mniste_cs_test_dataset','MnistE'),
+        ('rbm/condind_test_dataset','CondInd'),
+        ('rbm/hs3_test_dataset','HS3'),
+        ('rbm/mixedclf_test_dataset','MixedClf'),
+        ('rbm/nnt_test_dataset','NeuralNet'),
+        ('rbm/c2_boosting_test_dataset','C-Boosting'),
+        ('rbm/c2_complement_test_dataset','C-Complement'),
+        
+    ]
+    datasets = [
+        #('deem/mniste_train_dataset','MnistE'),
+        #('deem/hs3_train_dataset','HS3'),
+        #('deem/petfinder_train_dataset','Petfinder'),
+        ('deem/mboosting_train_dataset','MBoosting'),
+        ('deem/mcomplement_train_dataset','MComplement'),
+    ]
+    datasets = [
+    #('deem/hs3_train_dataset', 'HS3'),
+    #('deem/mniste_train_dataset', 'MnistE'),
+    #('deem/petfinder_train_dataset', 'Petfinder'),
+    #('deem/artificial-characters_train_dataset', 'ArtificialCharacters'),
+    #('deem/csgo_train_dataset', 'CSGO'),
+    #('deem/eye_movements_train_dataset', 'EyeMovements'),
+    #('deem/GesturePhaseSegmentationProcessed_train_dataset', 'GesturePhaseSegmentation'),
+    #('deem/mboosting_train_dataset', 'MBoosting'),
+    #('deem/mcomplement_train_dataset', 'MComplement'),
+    #('deem/microaggregation2_train_dataset', 'Microaggregation2'),
+    #('deem/pendigits_train_dataset', 'Pendigits'),
+    #('deem/volcanoes-b2_train_dataset', 'VolcanoesB2'),
+    ('deem/tree3k_train_dataset', 'Tree3k')
+    ]
 
     results_onepass = OfflineResultsSummary('onepass')
     results_twopass = OfflineResultsSummary('twopass')
 
-    round = 20
+    round = 10
     for dataset, abbrev in datasets:
         print(dataset, abbrev)
-        label_path = data_path + dataset + "/label.csv"
-        truth_path = data_path + dataset + "/truth.csv"
+        label_path = "data/"+dataset+"/label.csv"
+        truth_path = "data/"+dataset+"/truth.csv"
 
         e2wl, w2el, label_set = gete2wlandw2el(label_path)
         for r in range(round):
@@ -59,3 +96,6 @@ if __name__ == '__main__':
 
     print(results_onepass.to_dataframe_mean())
     print(results_twopass.to_dataframe_mean())
+
+
+# python experiments/exp_proposed_offline.py

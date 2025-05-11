@@ -50,6 +50,12 @@ if __name__ == "__main__":
 
     ]
 
+    datasets = [
+        ('deem/hs3_train_dataset','HS3'),
+        ('deem/mniste_train_dataset','MnistE'),
+        ('deem/petfinder_train_dataset','Petfinder'),
+    ]
+
     results = OfflineResultsSummary('DS')
     num_round = 20
     seed = 1

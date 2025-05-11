@@ -1,4 +1,8 @@
 import random
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from data_pipeline import gete2wlandw2el,getaccuracy
 import time
 from results_summary import OfflineResultsSummary
@@ -33,10 +37,24 @@ if __name__ == '__main__':
         ('SpectralMethodsMeetEM/trec', 'trec'),
     ]
 
+    datasets = [
+        ('rbm/mniste_cs_test_dataset','MnistE'),
+        ('rbm/condind_test_dataset','CondInd'),
+        ('rbm/hs3_test_dataset','HS3'),
+        ('rbm/mixedclf_test_dataset','MixedClf'),
+        ('rbm/nnt_test_dataset','NeuralNet'),
+        ('rbm/c2_boosting_test_dataset','C-Boosting'),
+        ('rbm/c2_complement_test_dataset','C-Complement'),
+    ]
 
+    datasets = [
+        ('deem/hs3_train_dataset','HS3'),
+        ('deem/mniste_train_dataset','MnistE'),
+        ('deem/petfinder_train_dataset','Petfinder'),
+    ]
 
     results = OfflineResultsSummary('EBCC')
-    num_round = 40
+    num_round = 10
     seed = 1
     for dataset, abbrev in datasets:
         print(dataset, abbrev)
@@ -53,6 +71,7 @@ if __name__ == '__main__':
             truths,elbo, iterations = ebcc_vb(e2wl,w2el,label_set)
             t2 = time.time()
             acc = getaccuracy(truth_path, truths)
+            print(f'dataset {abbrev} acc: {acc}')
             results.add(abbrev,acc,t2-t1,iterations,elbo)
 
     print('EBCC results')
